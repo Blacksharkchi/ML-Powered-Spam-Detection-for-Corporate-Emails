@@ -36,3 +36,8 @@ enron6_spam = load_emails('Downloads/archive (1)/enron6/spam', 'spam')
 df = pd.concat([enron1_ham, enron1_spam, enron2_ham, enron2_spam, enron3_ham, enron3_spam, enron4_ham, enron4_spam, enron5_ham, enron5_spam, enron6_ham, enron6_spam],
                ignore_index=True)
 print(df['label'].value_counts())
+
+# save the combined dataset
+df.to_csv('emails_dataset.csv', index=False)
+
+print("Combined dataset saved as 'emails_dataset.csv'")
