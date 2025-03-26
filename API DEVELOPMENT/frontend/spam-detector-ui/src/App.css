@@ -1,0 +1,91 @@
+/* src/App.css */
+@import "tailwindcss";
+
+.container {
+  max-inline-size: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.input-section {
+  margin-block-end: 2rem;
+}
+
+textarea {
+  inline-size: 100%;
+  block-size: 200px;
+  padding: 1rem;
+  margin-block-end: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.result {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-block-end: 2rem;
+}
+
+.result.spam {
+  background: #ffe6e6;
+  border: 2px solid #ff6384;
+}
+
+.result.ham {
+  background: #e6f4ff;
+  border: 2px solid #36a2eb;
+}
+
+.analytics {
+  margin-block-start: 2rem;
+  border-block-start: 2px solid #eee;
+  padding-block-start: 2rem;
+}
+
+.history {
+  margin-block-start: 2rem;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  border-block-end: 1px solid #eee;
+}
+
+.tag {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.tag.spam {
+  background: #ff6384;
+  color: white;
+}
+
+.tag.ham {
+  background: #36a2eb;
+  color: white;
+}
+
+#analyticsChart {
+  max-inline-size: 300px;
+  margin: 0 auto;
+}
