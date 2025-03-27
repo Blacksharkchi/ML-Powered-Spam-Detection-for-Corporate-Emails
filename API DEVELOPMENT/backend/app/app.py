@@ -3,17 +3,32 @@ from pydantic import BaseModel
 from typing import List
 import joblib
 import logging
-from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+# from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 import os
+
 
 # Initialize app and load model
 app = FastAPI(title="Spam Detection API")
 logging.basicConfig(level=logging.INFO)
 
-# Load pre-trained ensemble model and preprocessing
+# Enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+# Load pre-trained ensemble model and preprocessing
 current_dir = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(current_dir, "spam_detection_pipeline.pkl")
+
+if not os.path.exists(model_path):
+    raise FileNotFoundError(f"Model file not found at {model_path}")
+else:
+    print(f"Model file found at: {model_path}")
 
 
 try:
@@ -79,10 +94,11 @@ async def health_check():
     return {"status": "healthy", "model_loaded": model is not None}
 
 # Add HTTPS redirect middleware
-app.add_middleware(HTTPSRedirectMiddleware)
+# app.add_middleware(HTTPSRedirectMiddleware)
 
 # For local testing
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="localhost", port=8000)
+
 
