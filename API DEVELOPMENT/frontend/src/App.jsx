@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Chart } from "chart.js/auto";
 import { saveAs } from "file-saver";
 import { MoonLoader } from "react-spinners";
@@ -20,13 +21,10 @@ function App() {
   const classifyEmail = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/classify_email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email_text: emailText }),
+      const { data } = await axios.post(`${API_URL}/classify_email`, {
+        email_text: emailText,
       });
 
-      const data = await response.json();
       const newHistory = [{ ...data, timestamp: new Date() }, ...history.slice(0, 9)];
 
       setResult(data);
