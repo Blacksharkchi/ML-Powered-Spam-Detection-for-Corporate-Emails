@@ -9,7 +9,7 @@ function App() {
   const [result, setResult] = useState(null);
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
-  const API_URL = "http://localhost:8000";
+  const API_URL = "https://ml-powered-spam-detection-for-corporate.onrender.com";
 
   useEffect(() => {
     const savedHistory =
