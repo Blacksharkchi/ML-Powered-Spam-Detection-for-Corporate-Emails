@@ -4,6 +4,13 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  optimizeDeps: {
+    include: [
+      'jspdf',
+      'jspdf-autotable'
+    ]
+  },
+  
   plugins: [
     tailwindcss(),
     react(),
@@ -11,7 +18,7 @@ export default defineConfig({
   
   server: {
     proxy: {
-      '/api': 'http://localhost:8000'
+      // '/api': 'http://localhost:8000'
     }
   }
 })
