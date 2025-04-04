@@ -3,12 +3,10 @@ from pydantic import BaseModel
 from typing import List
 import joblib
 import logging
-# from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
-
-# Initialize app and load model
+# Initialize FastAPI app
 app = FastAPI(title="Spam Detection API")
 logging.basicConfig(level=logging.INFO)
 
@@ -21,22 +19,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load pre-trained ensemble model and preprocessing
+# Load pre-trained vectorizer & model separately
 current_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(current_dir, "spam_detection_pipeline.pkl")
+vectorizer_path = os.path.join(current_dir, "tfidf_vectorizer.pkl")
+model_path = os.path.join(current_dir, "svm_model.pkl")
 
-if not os.path.exists(model_path):
-    raise FileNotFoundError(f"Model file not found at {model_path}")
+if not os.path.exists(vectorizer_path) or not os.path.exists(model_path):
+    raise FileNotFoundError(f"Model files not found at {vectorizer_path} or {model_path}")
 else:
-    print(f"Model file found at: {model_path}")
-
+    print(f"Model files found at: {vectorizer_path} and {model_path}")
 
 try:
+    vectorizer = joblib.load(vectorizer_path)
     model = joblib.load(model_path)
-    logging.info("Model loaded successfully")
+    
+    logging.info("Vectorizer and Model loaded successfully")
 except Exception as e:
-    logging.error(f"Model loading failed: {str(e)}")
-    raise RuntimeError("Failed to initialize model")
+    logging.error(f"Loading error: {str(e)}")
+    raise RuntimeError("Failed to initialize vectorizer or model")
 
 # Request/Response models
 class EmailRequest(BaseModel):
@@ -49,22 +49,25 @@ class ClassificationResult(BaseModel):
     classification: str
     is_spam: bool
     spam_probability: float
-    model_version: str = "ensemble-v1"
+    model_version: str = "svm-v1"
 
 # Function to update metrics (background task)
 def update_metrics():
     logging.info("Background task: Metrics updated.")
 
-# Function to process a batch of emails (using the model)
+# Function to process a batch of emails
 async def process_batch(emails: List[str]):
-    return model.predict_proba(emails)[:, 1]
+    transformed_emails = vectorizer.transform(emails)  # Ensure correct input
+    return model.predict_proba(transformed_emails)[:, 1]
 
 # API Endpoints
 @app.post("/classify_email", response_model=ClassificationResult)
 async def classify_single_email(request: EmailRequest):
     """Classify single email"""
     try:
-        proba = model.predict_proba([request.email_text])[0][1]
+        transformed_text = vectorizer.transform([request.email_text])  # Convert input
+        proba = model.predict_proba(transformed_text)[0][1]
+
         return {
             "classification": "spam" if proba >= 0.5 else "ham",
             "is_spam": proba >= 0.5,
@@ -81,7 +84,10 @@ async def classify_batch_emails(
 ):
     """Classify multiple emails in batch"""
     background_tasks.add_task(update_metrics)
-    probabilities = await process_batch(request.emails)
+
+    transformed_emails = vectorizer.transform(request.emails)  # Ensure correct transformation
+    probabilities = model.predict_proba(transformed_emails)[:, 1]
+
     return [{
         "classification": "spam" if proba >= 0.5 else "ham",
         "is_spam": proba >= 0.5,
@@ -93,12 +99,7 @@ async def health_check():
     """Service health endpoint"""
     return {"status": "healthy", "model_loaded": model is not None}
 
-# Add HTTPS redirect middleware
-# app.add_middleware(HTTPSRedirectMiddleware)
-
 # For local testing
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="localhost", port=8000)
-
-
