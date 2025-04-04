@@ -32,11 +32,11 @@ else:
 try:
     vectorizer = joblib.load(vectorizer_path)
     model = joblib.load(model_path)
-    
     logging.info("Vectorizer and Model loaded successfully")
 except Exception as e:
-    logging.error(f"Loading error: {str(e)}")
-    raise RuntimeError("Failed to initialize vectorizer or model")
+    logging.error(f"Error loading model or vectorizer: {str(e)}")
+    model = None
+    vectorizer = None
 
 # Request/Response models
 class EmailRequest(BaseModel):
@@ -57,7 +57,7 @@ def update_metrics():
 
 # Function to process a batch of emails
 async def process_batch(emails: List[str]):
-    transformed_emails = vectorizer.transform(emails)  # Ensure correct input
+    transformed_emails = vectorizer.transform(emails) 
     return model.predict_proba(transformed_emails)[:, 1]
 
 # API Endpoints
