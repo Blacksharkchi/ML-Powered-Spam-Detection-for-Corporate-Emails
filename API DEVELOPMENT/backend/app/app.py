@@ -24,8 +24,9 @@ app.add_middleware(
 # Model paths
 current_dir = os.path.dirname(os.path.abspath(__file__))
 vectorizer_path = os.path.join(current_dir, "tfidf_vectorizer.pkl")
-model_path = os.path.join(current_dir, "best_model.pkl")  # Updated path
-lstm_model_path = os.path.join(current_dir, "best_lstm_model.h5")  # LSTM alternative
+# model_path = os.path.join(current_dir, "best_model.pkl")  # Updated path
+model_path = os.path.join(current_dir, "baseline_model.pkl")  # Updated path
+# lstm_model_path = os.path.join(current_dir, "best_lstm_model.h5")  # LSTM alternative
 
 # Model type detection
 is_lstm = os.path.exists(lstm_model_path)
