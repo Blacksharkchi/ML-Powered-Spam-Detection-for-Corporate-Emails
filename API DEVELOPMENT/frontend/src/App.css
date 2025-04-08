@@ -89,3 +89,19 @@ button:hover {
   max-inline-size: 300px;
   margin: 0 auto;
 }
+
+
+
+
+.rsm-geography {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.rsm-annotation-connector {
+  stroke-dasharray: 2 2;
+}
+
+.rsm-annotation text {
+  font-family: 'Inter var', sans-serif;
+}
