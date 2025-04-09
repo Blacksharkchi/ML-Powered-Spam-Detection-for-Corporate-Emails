@@ -6,7 +6,7 @@ import ResultsDisplay from '../components/detection/ResultsDisplay';
 import HistoryTable from '../components/detection/HistoryTable';
 import ConfidenceChart from '../components/ConfidenceChart';
 
-const API_URL = "https://ml-powered-spam-detection-for-corporate.onrender.com";
+const API_URL = "http://localhost:8000";
 
 export default function DetectionPage() {
   const { darkMode } = useTheme();
