@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import HomePage from './pages/Home/HomePage';
 import DetectionPage from './pages/DetectionPage';
 import AnalyticsPage from './pages/AnalyticsPage';
+import PricingPage from './pages/PricingPage';
 import DocumentationPage from './pages/DocumentationPage';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/detect" element={<DetectionPage />} />
               <Route path="/analytics" element={<AnalyticsPage />} />
+              <Route path="/pricing" element={<PricingPage />} />
               <Route path="/docs" element={<DocumentationPage />} />
             </Routes>
           </main>

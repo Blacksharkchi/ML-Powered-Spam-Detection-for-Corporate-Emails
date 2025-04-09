@@ -1,5 +1,5 @@
 import { useTheme } from '../contexts/ThemeContext';
-import { FiCode, FiBookOpen, FiTerminal, FiInfo } from 'react-icons/fi';
+import { FiCode, FiBookOpen, FiTerminal, FiInfo, FiChevronDown } from 'react-icons/fi';
 import React from 'react'
 
 const API_URL = "https://ml-powered-spam-detection-for-corporate.onrender.com";

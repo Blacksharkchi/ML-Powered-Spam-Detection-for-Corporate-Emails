@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useTheme } from '../../../contexts/ThemeContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import NavLink from './NavLink';
 import ThemeToggle from '../ThemeToggle.jsx';
 
@@ -32,6 +32,7 @@ export default function Navbar() {
               <NavLink to="/detect" text="Detection" />
               <NavLink to="/analytics" text="Analytics" />
               <NavLink to="/docs" text="Documentation" />
+              <NavLink to="/pricing" text="Pricing" />
             </div>
           </div>
 
