@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useTheme } from '../../../contexts/ThemeContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import CtaButton from '../../components/ui/CtaButton';
 import { FiArrowRight, FiBookOpen } from 'react-icons/fi';
 

@@ -171,7 +171,7 @@ export default function AnalyticsPage() {
             <canvas id="radarChart" />
           </ChartCard>
 
-          <ThreatOriginMap />
+          {/* <ThreatOriginMap /> */}
         </div>
       </div>
     </div>
@@ -226,7 +226,6 @@ const StatCard = ({ title, value, icon, color = 'blue', trend }) => {
           </div>
         )}
       </div>
-      {/* <ThreatOriginMap /> */}
     </div>
   );
 };
